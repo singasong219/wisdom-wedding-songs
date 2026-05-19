@@ -1,0 +1,16 @@
+### 축가 신청 등록
+POST http://localhost:8080/song-requests
+Content-Type: application/json
+
+{
+  "applicantName": "이지혜",
+  "applicantPhone": "010-1234-5678",
+  "applicantType": "CUSTOMER",
+  "weddingDate": "2026-06-20",
+  "weddingTime": "14:00:00",
+  "weddingPlace": "서울 웨딩홀",
+  "songTitle": "물론",
+  "specialRequest": "밝고 감동적인 분위기로 부탁드립니다.",
+  "password": "1234"
+
+}
