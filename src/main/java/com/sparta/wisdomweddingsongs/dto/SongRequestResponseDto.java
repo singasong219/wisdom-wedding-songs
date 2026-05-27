@@ -45,7 +45,7 @@ public class SongRequestResponseDto {
         this.weddingPlace = songRequest.getWeddingPlace();
         this.songTitle = songRequest.getSongTitle();
         this.specialRequest = songRequest.getSpecialRequest();
-        this.status = songRequest.getStatus();
+        this.status = songRequest.getStatus().name();
         this.createdAt = songRequest.getCreatedAt();
         this.updatedAt = songRequest.getUpdatedAt();
     }

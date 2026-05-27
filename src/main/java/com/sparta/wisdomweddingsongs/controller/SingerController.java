@@ -8,11 +8,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/singers")
+@RequestMapping("/api/singers")
 @RequiredArgsConstructor
 public class SingerController {
 
@@ -48,5 +50,14 @@ public class SingerController {
         singerService.deleteSinger(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{singerId}/video")
+    public ResponseEntity<String> uploadSingerVideo(
+            @PathVariable Long singerId,
+            @RequestParam("file") MultipartFile file
+    ) throws IOException {
+        String videoUrl = singerService.uploadSingerVideo(singerId, file);
+        return ResponseEntity.ok(videoUrl);
     }
 }

@@ -39,4 +39,11 @@ public class Singer {
         this.price = price;
         this.phoneNumber = phoneNumber;
     }
+    private String videoUrl;
+
+    public void updateVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+
 }

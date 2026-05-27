@@ -156,3 +156,21 @@ Wisdom Wedding Song의 축가 예약 비용은 총 30만원이며,
 ## ERD???
 
 ![ERD](erd.png)
+
+
+
+### 가수 등록
+
+| Method | URL |
+|---|---|
+| POST | /singers |
+
+Request Body
+
+```json
+{
+  "name": "김축가",
+  "genre": "발라드",
+  "price": 300000
+}
+

@@ -34,7 +34,7 @@ public class SongRequest {
         this.weddingPlace = weddingPlace;
         this.songTitle = songTitle;
         this.specialRequest = specialRequest;
-        this.status = "REQUESTED";
+        this.status = SongRequestStatus.REQUESTED;
         this.password = password;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
@@ -77,8 +77,9 @@ public class SongRequest {
     @Column(columnDefinition = "TEXT")
     private String specialRequest;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String status;
+    private SongRequestStatus status;
 
     @Column(nullable = false)
     private String password;
