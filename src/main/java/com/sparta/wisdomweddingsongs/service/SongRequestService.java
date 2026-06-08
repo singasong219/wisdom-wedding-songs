@@ -5,6 +5,7 @@ import com.sparta.wisdomweddingsongs.dto.SongRequestDeleteDto;
 import com.sparta.wisdomweddingsongs.dto.SongRequestResponseDto;
 import com.sparta.wisdomweddingsongs.entity.SongRequest;
 import com.sparta.wisdomweddingsongs.repository.SongRequestRepository;
+import com.sparta.wisdomweddingsongs.dto.SongRequestStatusUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,6 +73,17 @@ public class SongRequestService {
         return new SongRequestResponseDto(songRequest);
     }
 
+    public SongRequestResponseDto updateStatus(
+            Long id,
+            SongRequestStatusUpdateDto requestStatusUpdateDto
+    ) {
+        SongRequest songRequest = songRequestRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 신청이 업습니다."));
+
+        songRequest.updateStatus(requestStatusUpdateDto.getStatus());
+
+        return new SongRequestResponseDto(songRequest);
+    }
 
     public void deleteSongRequest(Long id, SongRequestDeleteDto requestDto) {
 

@@ -49,6 +49,10 @@ public class SongRequest {
         this.songTitle = songTitle;
     }
 
+    public void updateStatus(SongRequestStatus status) {
+        this.status = status;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>포트원 테스트 결제</h1>
+
+<button onclick="requestPayment()">
+    결제하기
+</button>
+
+<script src="https://cdn.portone.io/v2/browser-sdk.js"></script>
+
+<script>
+    async function requestPayment() {
+        if (!window.PortOne) {
+            alert("PortOne SDK가 로드되지 않았습니다.");
+            return;
+        }
+
+        const response = await window.PortOne.requestPayment({
+            storeId: "store-5b4636b9-3ac2-4be7-9faa-a74d6f680afc",
+            channelKey: "channel-key-046243e7-973f-4a3f-97e4-cfabae9456be",
+            paymentId: "payment-" + Date.now(),
+            orderName: "웨딩축가 결제",
+            totalAmount: 1000,
+            currency: "CURRENCY_KRW",
+            payMethod: "CARD",
+
+            customer: {
+                fullName: "이지혜",
+                phoneNumber: "01012345678",
+                email: "test@example.com"
+            }
+        });
+
+        console.log(response);
+        alert("결제 성공!");
+    }
+</script>
+
+</body>
+
