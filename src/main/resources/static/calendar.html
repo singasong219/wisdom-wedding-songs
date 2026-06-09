@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>예약 캘린더</title>
+</head>
+<body>
+
+<h1>축가 예약 캘린더</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>예약일</th>
+        <th>시간</th>
+        <th>신청자</th>
+        <th>예식장</th>
+        <th>곡명</th>
+        <th>상태</th>
+    </tr>
+    </thead>
+
+    <tbody id="calendarTable">
+    </tbody>
+    </table>
+
+<script>
+
+fetch('/song-requests')
+    .then(response => response.json())
+    .then(data => {
+
+        const table = document.getElementById("calendarTable");
+
+        data.forEach(request => {
+
+            const row = `
+                <tr>
+                    <td>${request.weddingDate}</td>
+                    <td>${request.weddingTime}</td>
+                    <td>${request.applicantName}</td>
+                    <td>${request.weddingPlace}</td>
+                    <td>${request.songTitle}</td>
+                    <td>${request.status}</td>
+                </tr>
+            `;
+    table.innerHTML += row;
+
+    });
+
+    });
+
+</script>
+</body>
+</html>

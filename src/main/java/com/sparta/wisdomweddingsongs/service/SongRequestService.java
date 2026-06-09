@@ -73,12 +73,13 @@ public class SongRequestService {
         return new SongRequestResponseDto(songRequest);
     }
 
+    @Transactional
     public SongRequestResponseDto updateStatus(
             Long id,
             SongRequestStatusUpdateDto requestStatusUpdateDto
     ) {
         SongRequest songRequest = songRequestRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 신청이 업습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("해당 신청이 없습니다."));
 
         songRequest.updateStatus(requestStatusUpdateDto.getStatus());
 
