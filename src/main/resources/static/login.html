@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>로그인 | Wisdom Wedding Songs</title>
+
+  <style>
+    body {
+        margin: 0;
+        font-family: 'Malgun Gothic', sans-serif;
+        background: linear-gradient(135deg, #ffd6e7, #e6d6ff, #e8f4ff, #ffffff);
+        color: #333;
+    }
+
+    nav {
+        height: 70px;
+        padding: 0 70px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: white;
+        border-bottom: 1px solid #e6d6ff;
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: #9ea7b8;
+    }
+
+    .menu a {
+        margin-left: 25px;
+        text-decoration: none;
+        color: #555;
+        font-weight: bold;
+    }
+
+    .login-box {
+        width: 430px;
+        margin: 110px auto;
+        padding: 55px 45px;
+        background: rgba(255,255,255,0.92);
+        border-radius: 30px;
+        border: 1px solid #dcecff;
+        box-shadow: 0 15px 40px rgba(150,170,190,0.2);
+        text-align: center;
+    }
+
+    h1 {
+        color: #9ea7b8;
+        margin-bottom: 12px;
+    }
+
+    .desc {
+        color: #777;
+        margin-bottom: 35px;
+    }
+
+    input {
+        width: 100%;
+        padding: 15px;
+        margin-bottom: 18px;
+        border: 1px solid #e6d6ff;
+        border-radius: 15px;
+        font-size: 15px;
+        box-sizing: border-box;
+    }
+
+    button {
+        width: 100%;
+        padding: 16px;
+        border: none;
+        border-radius: 30px;
+        background: #b8bec9;
+        color: white;
+        font-weight: bold;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #9ea7b8;
+    }
+
+    .link {
+        margin-top: 25px;
+        color: #777;
+        font-size: 14px;
+    }
+
+    .link a {
+        color: #b98fd8;
+        text-decoration: none;
+        font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<nav>
+  <div class="logo">Wisdom Wedding Songs</div>
+
+  <div class="menu">
+    <a href="index.html">Home</a>
+    <a href="song-request.html">Booking</a>
+    <a href="singers.html">Singers</a>
+    <a href="login.html" id="loginMenu">Login</a>
+  </div>
+</nav>
+
+<div class="login-box">
+  <h1>Login</h1>
+
+  <div class="desc">
+    웨딩 축가 서비스를 이용하려면 로그인해주세요.
+  </div>
+
+  <form id="loginForm">
+    <input type="text" id="email" placeholder="이메일">
+    <input type="password" id="password" placeholder="비밀번호">
+
+    <button type="submit">로그인</button>
+  </form>
+
+  <div class="link">
+    아직 회원이 아니신가요?
+    <a href="signup.html">회원가입</a>
+  </div>
+</div>
+<script>
+  document.getElementById("loginForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const loginData = {
+          email: document.getElementById("email").value,
+          password: document.getElementById("password").value
+      };
+
+      fetch("/members/login", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify(loginData)
+      })
+      .then(response => {
+          if (response.ok) {
+              alert("로그인 성공!");
+
+              localStorage.setItem("isLoggedIn", "true");
+              localStorage.setItem("loginEmail", loginData.email);
+
+              window.location.href = "index.html";
+          } else {
+            alert("로그인 실패! 이메일 또는 비밀번호를 확인해 주세요.");
+          }
+      })
+      .catch(error => {
+          console.error(error);
+          alert("서버 연결 중 오류가 발생했습니다.");
+      });
+  });
+</script>
+<script>
+  const loginMenu = document.getElementById("loginMenu");
+
+  if (localStorage.getItem("isLoggedIn") === "true") {
+    loginMenu.textContent = "Logout";
+    loginMenu.href = "#";
+
+    loginMenu.addEventListener("click", function () {
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("loginEmail");
+      alert("로그아웃 되었습니다.");
+      window.location.href = "index.html";
+    });
+  }
+</script>
+</body>
+</html>

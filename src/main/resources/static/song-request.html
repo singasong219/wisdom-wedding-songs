@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>축가 신청 | Wisdom Wedding Songs</title>
+
+  <style>
+    body {
+        margin: 0;
+        font-family: 'Malgun Gothic', sans-serif;
+        background: linear-gradient(
+        135deg, #ffd6e7, #e6d6ff, #e8f4ff, #ffffff);
+        color: #333;
+    }
+
+    nav {
+        height: 70px;
+        padding: 0 70px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: white;
+        border-bottom: 1px solid #e6d6ff;
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: #9ea7b8;
+    }
+
+    .menu a {
+        margin-left: 25px;
+        text-decoration: none;
+        color: #333;
+        font-weight: bold;
+    }
+
+    .container {
+        width: 600px;
+        margin: 80px auto;
+        background: rgba(255,255,255,0.9);
+        padding: 50px;
+        border-radius: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        text-align: center;
+    }
+
+    h1 {
+        color: #9ea7b8;
+        margin-bottom: 10px;
+    }
+
+    .desc {
+        color: #777;
+        margin-bottom: 35px;
+    }
+
+    input, textarea {
+        width: 100%;
+        padding: 15px;
+        margin-bottom: 18px;
+        border: 1px solid #e6d6ff;
+        border-radius: 15px;
+        font-size: 15px;
+        box-sizing: border-box;
+    }
+
+    textarea {
+        height: 120px;
+        resize: none;
+    }
+
+    button {
+        width: 100%;
+        padding: 16px;
+        border: none;
+        border-radius: 30px;
+        background: #b8bec9;
+        color: white;
+        font-weight: bold;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #9ea7b8;
+    }
+  </style>
+</head>
+
+<body>
+
+<nav>
+  <div class="logo">Wisdom Wedding Songs</div>
+
+  <div class="menu">
+    <a href="index.html">Home</a>
+    <a href="song-request.html">Booking</a>
+    <a href="singers.html">Singers</a>
+    <a href="login.html">Login</a>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>축가 신청</h1>
+
+  <div class="desc">
+    결혼식 정보를 입력하고 축가를 신청해보세요.
+  </div>
+
+  <form id="songRequestForm">
+    <input type="text" placeholder="신청자 이름">
+    <input type="text" placeholder="연락처">
+    <input type="date">
+    <input type="text" placeholder="예식 장소">
+    <input type="text" placeholder="희망 곡명">
+    <textarea placeholder="요청사항 또는 메모"></textarea>
+
+    <button type="submit">축가 신청하기</button>
+  </form>
+</div>
+<script>
+  document.getElementById("songRequestForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    alert("축가 신청 버튼 클릭됨!");
+
+    window.location.href = "payment.html";
+  });
+</script>
+</body>
+</html>

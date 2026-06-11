@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>가수 소개 | Wisdom Wedding Songs</title>
+
+  <style>
+    body {
+        margin: 0;
+        font-family: 'Malgun Gothic', sans-serif;
+        background: linear-gradient(
+            135deg,
+            #ffd6e7,
+            #e6d6ff,
+            #e8f4ff,
+            #ffffff);
+        color: #333;
+    }
+
+    nav {
+        height: 70px;
+        padding: 0 70px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: white;
+        border-bottom: 1px solid #e6d6ff;
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: #9ea7b8;
+    }
+
+    .menu a {
+        margin-left: 25px;
+        text-decoration: none;
+        color: #555;
+        font-weight: bold;
+    }
+
+    .menu a:hover {
+        color: #b98fd8;
+    }
+
+    .header {
+        text-align: center;
+        padding: 80px 20px 40px;
+    }
+
+    .header h1 {
+        font-size: 44px;
+        color: #9ea7b8;
+        margin-bottom: 15px;
+    }
+
+    .header p {
+        color: #666;
+        font-size: 18px;
+        line-height: 1.7;
+    }
+
+    .singer-wrap {
+        display: flex;
+        justify-content: center;
+        gap: 35px;
+        flex-wrap: wrap;
+        padding: 30px 70px 90px;
+    }
+
+    .singer-card {
+        width: 300px;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid #dcecff;
+        border-radius: 28px;
+        padding: 35px 28px;
+        text-align: center;
+        box-shadow: 0 15px 35px rgba(150, 170, 190, 0.18);
+    }
+
+    .singer-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 22px 45px rgba(150, 170, 190, 0.25);
+    }
+
+    .profile-circle {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 25px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ffd6e7, #e6d6ff, #f4f9ff);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 46px;
+        border: 3px solid white;
+        box-shadow: 0 8px 20px rgba(160, 150, 180, 0.18);
+    }
+
+    .singer-card h2 {
+        color: #9ea7b8;
+        margin-bottom: 12px;
+    }
+
+    .tag {
+        display: inline-block;
+        padding: 7px 14px;
+        border-radius: 20px;
+        background: #f4f9ff;
+        color: #7f8fa6;
+        font-size: 13px;
+        font-weight: bold;
+        margin-bottom: 18px;
+    }
+
+    .singer-card p {
+        color: #666;
+        line-height: 1.8;
+        font-size: 15px;
+    }
+
+    .btn {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 13px 28px;
+        border-radius: 30px;
+        background: #b8bec9;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .btn:hover {
+        background: #9ea7b8;
+    }
+
+    footer {
+        background: white;
+        border-top: 1px solid #e6d6ff;
+        text-align: center;
+        padding: 30px;
+        color: #777;
+    }
+  </style>
+</head>
+
+<body>
+
+<nav>
+  <div class="logo">Wisdom Wedding Songs</div>
+
+  <div class="menu">
+    <a href="index.html">Home</a>
+    <a href="song-request.html">Booking</a>
+    <a href="singers.html">Singers</a>
+    <a href="login.html">Login</a>
+  </div>
+</nav>
+
+<section class="header">
+  <h1>Wedding Singers</h1>
+  <p>
+    특별한 결혼식을 더욱 빛내줄<br>
+    감성적인 웨딩 축가 가수를 소개합니다.
+  </p>
+</section>
+
+<section class="singer-wrap">
+
+  <div class="singer-card">
+    <div class="profile-circle">🎤</div>
+    <h2>감성 보컬</h2>
+    <div class="tag">Ballad · Wedding Song</div>
+    <p>
+      따뜻한 음색과 섬세한 감정 표현으로
+      결혼식의 분위기를 더욱 아름답게 만들어드립니다.
+    </p>
+    <a href="song-request.html" class="btn">축가 신청하기</a>
+  </div>
+
+  <div class="singer-card">
+    <div class="profile-circle">🎶</div>
+    <h2>프리미엄 보컬</h2>
+    <div class="tag">Premium · Live Vocal</div>
+    <p>
+      안정적인 라이브 실력과 풍부한 성량으로
+      예식의 하이라이트를 완성합니다.
+    </p>
+    <a href="song-request.html" class="btn">축가 신청하기</a>
+  </div>
+
+  <div class="singer-card">
+    <div class="profile-circle">💍</div>
+    <h2>웨딩 전문 보컬</h2>
+    <div class="tag">Wedding · Ceremony</div>
+    <p>
+      결혼식 진행 분위기에 맞춘 선곡과 무대로
+      잊지 못할 순간을 선물합니다.
+    </p>
+    <a href="song-request.html" class="btn">축가 신청하기</a>
+  </div>
+
+</section>
+
+<footer>
+  © 2025 Wisdom Wedding Songs
+</footer>
+
+</body>
+</html>

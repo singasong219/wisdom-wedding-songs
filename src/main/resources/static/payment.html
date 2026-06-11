@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>결제 | Wisdom Wedding Songs</title>
+
+  <style>
+    body {
+        margin: 0;
+        font-family: 'Malgun Gothic', sans-serif;
+        background: linear-gradient(135deg, #ffd6e7, #e6d6ff, #e8f4ff, #ffffff);
+        color: #333;
+    }
+
+    nav {
+        height: 70px;
+        padding: 0 70px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: white;
+        border-bottom: 1px solid #e6d6ff;
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: #9ea7b8;
+    }
+
+    .menu a {
+        margin-left: 25px;
+        text-decoration: none;
+        color: #555;
+        font-weight: bold;
+    }
+
+    .payment-box {
+        width: 520px;
+        margin: 80px auto;
+        padding: 55px 45px;
+        background: rgba(255,255,255,0.94);
+        border-radius: 30px;
+        border: 1px solid #dcecff;
+        box-shadow: 0 15px 40px rgba(150,170,190,0.2);
+    }
+
+    h1 {
+        text-align: center;
+        color: #9ea7b8;
+        margin-bottom: 12px;
+    }
+
+    .desc {
+        text-align: center;
+        color: #777;
+        margin-bottom: 35px;
+    }
+
+    .info {
+        background: linear-gradient(135deg, #ffffff, #e8f4ff);
+        border: 1px solid #dcecff;
+        border-radius: 20px;
+        padding: 25px;
+        margin-bottom: 25px;
+    }
+
+    .row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        color: #555;
+    }
+
+    .row strong {
+        color: #9ea7b8;
+    }
+
+    .price {
+        font-size: 24px;
+        font-weight: bold;
+        color: #9ea7b8;
+    }
+
+    button {
+        width: 100%;
+        padding: 16px;
+        border: none;
+        border-radius: 30px;
+        background: #b8bec9;
+        color: white;
+        font-weight: bold;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #9ea7b8;
+    }
+
+    .notice {
+        margin-top: 22px;
+        color: #777;
+        font-size: 14px;
+        line-height: 1.7;
+        text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+<nav>
+  <div class="logo">Wisdom Wedding Songs</div>
+
+  <div class="menu">
+    <a href="index.html">Home</a>
+    <a href="song-request.html">Booking</a>
+    <a href="singers.html">Singers</a>
+    <a href="login.html">Login</a>
+  </div>
+</nav>
+
+<div class="payment-box">
+  <h1>Payment</h1>
+
+  <div class="desc">
+    축가 신청 정보를 확인하고 결제를 진행해주세요.
+  </div>
+
+  <div class="info">
+    <div class="row">
+      <span>서비스명</span>
+      <strong>웨딩 축가 예약</strong>
+    </div>
+
+    <div class="row">
+      <span>신청 상태</span>
+      <strong>결제 대기</strong>
+    </div>
+
+    <div class="row">
+      <span>결제 금액</span>
+      <span class="price">400,000원</span>
+    </div>
+  </div>
+
+  <button type="button" id="payButton">결제하기</button>
+
+  <div class="notice">
+    결제 완료 후 관리자 확인을 거쳐 예약이 확정됩니다.<br>
+    실제 결제 연동은 추후 포트원 API와 연결할 수 있습니다.
+  </div>
+</div>
+<script>
+  document.getElementById("payButton").addEventListener("click", function () {
+    alert("결제하기 버튼 클릭됨!");
+  });
+</script>
+</body>
+</html>
