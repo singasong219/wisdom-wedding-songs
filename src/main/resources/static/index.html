@@ -186,24 +186,31 @@
         }
 
         .card {
-
             width: 280px;
             background: linear-gradient(
-                135deg,
-                #ffffff
-                #e8f4ff
+            135deg,
+            #ffffff,
+            #e8f4ff
             );
             border-radius: 25px;
-
             padding: 30px;
-
             border: 1px solid #dcecff;
-
             box-shadow: 0 8px 20px rgba(158,167,184,0.12);
+
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(150, 170, 190, 0.25);
         }
 
         .card-icon {
-
+            text-align: center;
             font-size: 40px;
 
             margin-bottom: 15px;
@@ -212,10 +219,11 @@
         .card h3 {
 
             color: #b98fd8;
+            text-align: center;
         }
 
         .card p {
-
+            text-align: left;
             color: #666;
 
             line-height: 1.7;
@@ -280,6 +288,10 @@
 
         <a href="singers.html">Singers</a>
 
+        <a href="mypage.html" id="mypageMenu">My Page</a>
+
+        <a href="signup.html" id="signupMenu">Sign Up</a>
+
         <a href="login.html" id="loginMenu">Login</a>
 
     </div>
@@ -342,12 +354,12 @@
     <h2>Wedding Service</h2>
 
     <div class="section-desc">
-        신청부터 결제까지 쉽고 편리하게 이용할 수 있습니다.
-    </div>
 
-    <div class="card-wrap">
+        축가 신청, 가수 소개, 예약 일정까지 한 번에 이용할 수 있습니다.
 
     </div>
+
+
 </section>
 
 
@@ -356,7 +368,8 @@
 
     <div class="card-wrap">
 
-        <div class="card">
+
+            <a href="song-request.html" class="card">
 
             <div class="card-icon">💌</div>
 
@@ -369,9 +382,11 @@
 
             </p>
 
-        </div>
+        </a>
 
-        <div class="card">
+
+
+            <a href="singers.html" class="card">
 
             <div class="card-icon">🎤</div>
 
@@ -384,22 +399,23 @@
 
             </p>
 
-        </div>
+        </a>
 
-        <div class="card">
+
+            <a href="calendar.html" class="card">
 
             <div class="card-icon">💳</div>
 
-            <h3>결제 서비스</h3>
+            <h3>예약 일정</h3>
 
             <p>
 
-                결제 상태를 확인하고
-                예약을 진행할 수 있습니다.
+                예식 날짜별 예약 현황을
+                확인할 수 있습니다.
 
             </p>
 
-        </div>
+        </a>
 
     </div>
 
@@ -431,11 +447,19 @@
 
 <script>
     const loginMenu = document.getElementById("loginMenu");
+    const mypageMenu = document.getElementById("mypageMenu");
+    const signupMenu = document.getElementById("signupMenu");
+
+    mypageMenu.style.display = "none";
 
     if (localStorage.getItem("isLoggedIn") === "true") {
 
+       mypageMenu.style.display = "inline";
+
       loginMenu.textContent = "Logout";
       loginMenu.href = "#";
+
+      signupMenu.style.display = "none";
 
       loginMenu.addEventListener("click", function () {
 

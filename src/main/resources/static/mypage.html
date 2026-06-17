@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>마이페이지</title>
+
+  <style>
+    body {
+        margin: 0;
+        font-family: 'Malgun Gothic', sans-serif;
+        background: linear-gradient(135deg, #fdfbff, #eef7ff, #fff0f6);
+        color: #333;
+    }
+
+    header {
+        background: white;
+        padding: 20px 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    header h1 {
+        margin: 0;
+        color: #7b6fd6;
+    }
+
+    nav a {
+        margin-left: 20px;
+        text-decoration: none;
+        color: #555;
+        font-weight: bold;
+    }
+
+    .container {
+        width: 90%;
+        max-width: 1000px;
+        margin: 50px auto;
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    }
+
+    .welcome {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 30px;
+        color: #555;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 25px;
+    }
+
+    th, td {
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+        text-align: center;
+    }
+
+    th {
+        background: #f4f0ff;
+        color: #6b5fd6;
+    }
+
+    .empty {
+        text-align: center;
+        padding: 50px;
+        color: #888;
+    }
+
+    .status {
+        font-weight: bold;
+        color: #7b6fd6;
+    }
+
+    .paid {
+        color: #3c9d5d;
+        font-weight: bold;
+    }
+
+    .ready {
+        color: #d18b00;
+        font-weight: bold;
+    }
+
+    .cancel {
+        color: #d65f5f;
+        font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Wisdom Wedding Songs</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="song-request.html">Booking</a>
+    <a href="singers.html">Singers</a>
+    <a href="mypage.html" id="mypageMenu">My Page</a>
+    <a href="signup.html" id="signupMenu">Sign Up</a>
+    <a href="login.html" id="loginMenu">Login</a>
+  </nav>
+</header>
+
+<div class="container">
+  <div class="welcome" id="welcomeText">
+    마이페이지
+  </div>
+
+  <h2>축가 신청 내역</h2>
+
+  <table>
+    <thead>
+    <tr>
+      <th>신청자</th>
+      <th>예식일</th>
+      <th>예식 시간</th>
+      <th>장소</th>
+      <th>신청곡</th>
+      <th>신청 상태</th>
+      <th>결제 상태</th>
+    </tr>
+    </thead>
+
+    <tbody id="requestTableBody">
+    </tbody>
+  </table>
+</div>
+
+<script>
+  const loginUser = localStorage.getItem("loginEmail");
+  const userName = localStorage.getItem("userName") || "회원";
+
+  const welcomeText = document.getElementById("welcomeText");
+  const loginMenu = document.getElementById("loginMenu");
+
+  console.log("loginUser =", loginUser);
+
+  if (!loginUser) {
+      alert("로그인이 필요합니다.");
+      location.href = "login.html";
+
+  } else {
+
+      welcomeText.innerText = userName + "님의 마이페이지";
+      loginMenu.innerText = "Logout";
+
+      loginMenu.addEventListener("click", function (event) {
+          event.preventDefault();
+          localStorage.removeItem("loginEmail");
+          localStorage.removeItem("isLoggedIn");
+          alert("로그아웃 되었습니다.");
+          location.href = "index.html";
+      });
+  }
+
+  async function loadMyRequests() {
+      try {
+          const response = await fetch("/song-requests");
+          const data = await response.json();
+
+          console.log("userName =", userName);
+          console.log("data =", data);
+          console.log("applicantNames =", data.map(request => request.applicantName));
+
+
+          const tbody = document.getElementById("requestTableBody");
+          tbody.innerHTML = "";
+
+          const myRequests = data.filter(request =>
+              request.applicantName &&
+              request.applicantName.trim() === userName.trim()
+          );
+
+          if (myRequests.length === 0) {
+              tbody.innerHTML = `
+                  <tr>
+                      <td colspan="7" class="empty">
+                          아직 신청한 축가 내역이 없습니다.
+                      </td>
+                  </tr>
+              `;
+              return;
+          }
+
+          myRequests.forEach(request => {
+              const row = document.createElement("tr");
+
+              row.innerHTML = `
+                  <td>${request.applicantName}</td>
+                  <td>${request.weddingDate}</td>
+                  <td>${request.weddingTime}</td>
+                  <td>${request.weddingPlace}</td>
+                  <td>${request.songTitle}</td>
+                  <td class="status">
+                      ${
+                          request.status === "REQUESTED" ? "신청완료" :
+                          request.status === "APPROVED" ? "승인완료" :
+                          request.status === "COMPLETED" ? "축가완료" :
+                          request.status === "REJECTED" ? "승인거절" :
+                          request.status
+                      }
+                  </td>
+
+
+
+
+                  <td class="ready">결제 확인 필요</td>
+              `;
+
+              tbody.appendChild(row);
+          });
+
+      } catch (error) {
+          console.error(error);
+          alert("마이페이지 정보를 불러오지 못했습니다.");
+      }
+  }
+
+  loadMyRequests();
+
+  const mypageMenu = document.getElementById("mypageMenu");
+  const signupMenu = document.getElementById("signupMenu");
+
+  signupMenu.style.display = "none";
+</script>
+
+</body>
+</html>

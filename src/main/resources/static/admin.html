@@ -3,97 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <title>축가 관리자 페이지</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #f8eef7, #eef5ff);
+            color: #333;
+        }
+
+        nav {
+            height: 80px;
+            background: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 60px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #7b6fd6;
+        }
+
+        .menu a {
+            margin-left: 28px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: 55px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(120, 100, 180, 0.12);
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 28px;
+            font-size: 28px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        th {
+            background: #f0ebff;
+            color: #7b6fd6;
+            padding: 14px;
+            font-weight: 700;
+        }
+
+        td {
+            padding: 13px;
+            border-bottom: 1px solid #eee;
+        }
+
+        button {
+            border: none;
+            padding: 8px 13px;
+            border-radius: 8px;
+            background: #7b6fd6;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 2px;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+    </style>
 </head>
+
 <body>
 
-<h1>축가 신청 관리</h1>
+<nav>
+    <div class="logo">Wisdom Wedding Songs</div>
 
-<table border="1">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>신청자</th>
-        <th>예식장</th>
-        <th>곡명</th>
-        <th>상태</th>
-        <th>관리</th>
-    </tr>
-    </thead>
+    <div class="menu">
+        <a href="index.html">Home</a>
+        <a href="song-request.html">Booking</a>
+        <a href="singers.html">Singers</a>
+        <a href="mypage.html">My Page</a>
+        <a href="login.html" id="loginMenu">Login</a>
+    </div>
+</nav>
 
-    <tbody id="requestTable">
-    </tbody>
-</table>
+<main class="admin-container">
+    <h1>축가 신청 관리</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>신청자</th>
+            <th>예식장</th>
+            <th>곡명</th>
+            <th>상태</th>
+            <th>관리</th>
+        </tr>
+        </thead>
+
+        <tbody id="requestTable">
+        </tbody>
+    </table>
+</main>
+
 <script>
-fetch("/song-requests")
-    .then(response => response.json())
-    .then(data => {
-        const table = document.getElementById("requestTable");
+    fetch('/song-requests')
+        .then(response => response.json())
+        .then(data => {
+            const table = document.getElementById("requestTable");
 
-        data.forEach(request => {
-            const buttons = getStatusButtons(request);
+            data.forEach(request => {
+                const buttons = getStatusButtons(request);
 
-            const row = `
-                <tr>
-                    <td>${request.id}</td>
-                    <td>${request.applicantName}</td>
-                    <td>${request.weddingPlace}</td>
-                    <td>${request.songTitle}</td>
-                    <td>${getStatusText(request.status)}</td>
-                    <td>${buttons}</td>
-                </tr>
-            `;
+                const row = `
+                    <tr>
+                        <td>${request.id}</td>
+                        <td>${request.applicantName}</td>
+                        <td>${request.weddingPlace}</td>
+                        <td>${request.songTitle}</td>
+                        <td>${getStatusText(request.status)}</td>
+                        <td>${buttons}</td>
+                    </tr>
+                `;
 
-            table.innerHTML += row;
+                table.innerHTML += row;
+            });
         });
-    });
 
-function getStatusText(status) {
-    if (status === "REQUESTED") return "신청완료";
-    if (status === "APPROVED") return "승인완료";
-    if (status === "REJECTED") return "거절";
-    if (status === "COMPLETED") return "축가완료";
-    return status;
-}
-
-function getStatusButtons(request) {
-    if (request.status === "REQUESTED") {
-        return `
-            <button onclick='changeStatus(${request.id}, "APPROVED")'>승인</button>
-            <button onclick='changeStatus(${request.id}, "REJECTED")'>거절</button>
-        `;
+    function getStatusText(status) {
+        if (status === "REQUESTED") return "신청완료";
+        if (status === "APPROVED") return "승인완료";
+        if (status === "REJECTED") return "거절";
+        if (status === "COMPLETED") return "축가완료";
+        return status;
     }
 
-    if (request.status === "APPROVED") {
-        return `
-            <button onclick='changeStatus(${request.id}, "COMPLETED")'>축가완료</button>
-        `;
-    }
-
-    return "-";
-}
-
-function changeStatus(id, status) {
-    fetch(`/song-requests/${id}/status`, {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ status: status })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("상태 변경 실패");
+    function getStatusButtons(request) {
+        if (request.status === "REQUESTED") {
+            return `
+                <button onclick='changeStatus(${request.id}, "APPROVED")'>승인</button>
+                <button onclick='changeStatus(${request.id}, "REJECTED")'>거절</button>
+            `;
         }
-        return response.json();
-    })
-    .then(data => {
-        alert("상태가 변경되었습니다.");
-        location.reload();
-    })
-    .catch(error => {
-        alert(error.message);
-    });
-}
+
+        if (request.status === "APPROVED") {
+            return `
+                <button onclick='changeStatus(${request.id}, "COMPLETED")'>축가완료</button>
+            `;
+        }
+
+        return "-";
+    }
+
+    function changeStatus(id, status) {
+        fetch(`/song-requests/${id}/status`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ status: status })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("상태 변경 실패");
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert("상태가 변경되었습니다.");
+                location.reload();
+            })
+            .catch(error => {
+                alert(error.message);
+            });
+    }
 </script>
+
 </body>
 </html>

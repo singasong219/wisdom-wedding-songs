@@ -105,7 +105,9 @@
     <a href="index.html">Home</a>
     <a href="song-request.html">Booking</a>
     <a href="singers.html">Singers</a>
-    <a href="login.html">Login</a>
+    <a href="mypage.html" id="mypageMenu">My Page</a>
+    <a href="signup.html" id="signupMenu">Sign Up</a>
+    <a href="login.html" id="loginMenu">Login</a>
   </div>
 </nav>
 
@@ -170,6 +172,35 @@
           alert("서버 연결 중 오류가 발생했습니다.");
       });
   });
+</script>
+<script>
+  const loginMenu = document.getElementById("loginMenu");
+  const mypageMenu = document.getElementById("mypageMenu");
+  const signupMenu = document.getElementById("signupMenu");
+
+  mypageMenu.style.display = "none";
+
+  if (localStorage.getItem("isLoggedIn") === "true") {
+
+      mypageMenu.style.display = "inline";
+
+      signupMenu.style.display = "none";
+
+      loginMenu.textContent = "Logout";
+      loginMenu.href = "#";
+
+      loginMenu.addEventListener("click", function (e) {
+
+          e.preventDefault();
+
+          localStorage.removeItem("isLoggedIn");
+          localStorage.removeItem("loginEmail");
+
+          alert("로그아웃 되었습니다.");
+
+          location.href = "index.html";
+      });
+  }
 </script>
 </body>
 </html>
