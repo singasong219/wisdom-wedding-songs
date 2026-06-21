@@ -3,53 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <title>예약 캘린더</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #fff2f7, #f3eeff, #eaf7ff);
+            color: #2c3e50;
+        }
+
+        header {
+            background: white;
+            padding: 20px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        header h1 {
+            margin: 0;
+            color: #8b75dd;
+            font-size: 30px;
+        }
+
+        nav a {
+            margin-left: 24px;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 85%;
+            max-width: 1100px;
+            margin: 70px auto;
+            background: rgba(255,255,255,0.9);
+            border-radius: 28px;
+            padding: 45px;
+            box-shadow: 0 10px 35px rgba(120, 100, 180, 0.15);
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .title h2 {
+            font-size: 36px;
+            margin: 0;
+            color: #2c3e50;
+        }
+
+        .title p {
+            color: #888;
+            margin-top: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow: hidden;
+            border-radius: 18px;
+        }
+
+        th {
+            background: #f3eeff;
+            color: #7b6fd6;
+            padding: 16px;
+            font-size: 15px;
+        }
+
+        td {
+            padding: 16px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            font-size: 15px;
+        }
+
+        tr:hover {
+            background: #fff7fa;
+        }
+
+        .status {
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .REQUESTED {
+            background: #fff2cc;
+            color: #b8860b;
+        }
+
+        .APPROVED {
+            background: #eaf7ff;
+            color: #4682b4;
+        }
+
+        .COMPLETED {
+            background: #f3eeff;
+            color: #7b6fd6;
+        }
+
+        .REJECTED {
+            background: #ffe5ec;
+            color: #d65f7f;
+        }
+
+        .empty {
+            padding: 50px;
+            color: #999;
+            text-align: center;
+        }
+    </style>
 </head>
+
 <body>
 
-<h1>축가 예약 캘린더</h1>
+<header>
+    <h1>Wisdom Wedding Songs</h1>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="song-request.html">Booking</a>
+        <a href="singers.html">Singers</a>
+        <a href="mypage.html">My Page</a>
+        <a href="login.html">Login</a>
+    </nav>
+</header>
 
-<table border="1">
-    <thead>
-    <tr>
-        <th>예약일</th>
-        <th>시간</th>
-        <th>신청자</th>
-        <th>예식장</th>
-        <th>곡명</th>
-        <th>상태</th>
-    </tr>
-    </thead>
+<div class="container">
+    <div class="title">
+        <h2>축가 예약 캘린더</h2>
+        <p>예약된 축가 신청 일정을 한눈에 확인할 수 있습니다.</p>
+    </div>
 
-    <tbody id="calendarTable">
-    </tbody>
+    <table>
+        <thead>
+        <tr>
+            <th>예약일</th>
+            <th>시간</th>
+            <th>신청자</th>
+            <th>예식장</th>
+            <th>곡명</th>
+            <th>상태</th>
+        </tr>
+        </thead>
+        <tbody id="calendarTable">
+        </tbody>
     </table>
+</div>
 
 <script>
+    fetch('/song-requests')
+        .then(response => response.json())
+        .then(data => {
+            const table = document.getElementById("calendarTable");
+            table.innerHTML = "";
 
-fetch('/song-requests')
-    .then(response => response.json())
-    .then(data => {
+            if (data.length === 0) {
+                table.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="empty">등록된 예약 일정이 없습니다.</td>
+                    </tr>
+                `;
+                return;
+            }
 
-        const table = document.getElementById("calendarTable");
+            data.forEach(request => {
+                const statusText =
+                    request.status === "REQUESTED" ? "신청완료" :
+                    request.status === "APPROVED" ? "승인완료" :
+                    request.status === "COMPLETED" ? "축가완료" :
+                    request.status === "REJECTED" ? "신청거절" :
+                    request.status;
 
-        data.forEach(request => {
+                const row = `
+                    <tr>
+                        <td>${request.weddingDate}</td>
+                        <td>${request.weddingTime}</td>
+                        <td>${request.applicantName}</td>
+                        <td>${request.weddingPlace}</td>
+                        <td>${request.songTitle}</td>
+                        <td><span class="status ${request.status}">${statusText}</span></td>
+                    </tr>
+                `;
 
-            const row = `
-                <tr>
-                    <td>${request.weddingDate}</td>
-                    <td>${request.weddingTime}</td>
-                    <td>${request.applicantName}</td>
-                    <td>${request.weddingPlace}</td>
-                    <td>${request.songTitle}</td>
-                    <td>${request.status}</td>
-                </tr>
-            `;
-    table.innerHTML += row;
-
-    });
-
-    });
-
+                table.innerHTML += row;
+            });
+        })
+        .catch(error => {
+            console.error(error);
+            alert("예약 캘린더 정보를 불러오지 못했습니다.");
+        });
 </script>
+
 </body>
 </html>

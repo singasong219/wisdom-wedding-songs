@@ -17,6 +17,7 @@ public class SongRequest {
 
     public SongRequest(
             String applicantName,
+            String applicantEmail,
             String applicantPhone,
             String applicantType,
             LocalDate weddingDate,
@@ -27,6 +28,7 @@ public class SongRequest {
             String password
     ) {
         this.applicantName = applicantName;
+        this.applicantEmail = applicantEmail;
         this.applicantPhone = applicantPhone;
         this.applicantType = applicantType;
         this.weddingDate = weddingDate;
@@ -59,6 +61,9 @@ public class SongRequest {
 
     @Column(nullable = false)
     private String applicantName;
+
+    @Column(nullable = false)
+    private String applicantEmail;
 
     @Column(nullable = false)
     private String applicantPhone;

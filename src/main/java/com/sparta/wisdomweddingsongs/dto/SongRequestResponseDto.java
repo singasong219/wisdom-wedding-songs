@@ -15,6 +15,8 @@ public class SongRequestResponseDto {
 
     private String applicantName;
 
+    private String applicantEmail;
+
     private String applicantPhone;
 
     private String applicantType;
@@ -38,6 +40,7 @@ public class SongRequestResponseDto {
     public SongRequestResponseDto(SongRequest songRequest) {
         this.id = songRequest.getId();
         this.applicantName = songRequest.getApplicantName();
+        this.applicantEmail = songRequest.getApplicantEmail();
         this.applicantPhone = songRequest.getApplicantPhone();
         this.applicantType = songRequest.getApplicantType();
         this.weddingDate = songRequest.getWeddingDate();

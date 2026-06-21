@@ -10,6 +10,8 @@ public class SongRequestCreateDto {
 
         private String applicantName;
 
+        private String applicantEmail;
+
         private String applicantPhone;
 
         private String applicantType;

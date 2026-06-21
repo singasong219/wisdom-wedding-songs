@@ -22,6 +22,7 @@ public class SongRequestService {
 
         SongRequest songRequest = new SongRequest(
                 songRequestCreateDto.getApplicantName(),
+                songRequestCreateDto.getApplicantEmail(),
                 songRequestCreateDto.getApplicantPhone(),
                 songRequestCreateDto.getApplicantType(),
                 songRequestCreateDto.getWeddingDate(),

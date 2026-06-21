@@ -169,14 +169,15 @@
           console.log("userName =", userName);
           console.log("data =", data);
           console.log("applicantNames =", data.map(request => request.applicantName));
+          console.log("applicantEmails =", data.map(request => request.applicantEmail));
 
 
           const tbody = document.getElementById("requestTableBody");
           tbody.innerHTML = "";
 
           const myRequests = data.filter(request =>
-              request.applicantName &&
-              request.applicantName.trim() === userName.trim()
+              request.applicantEmail &&
+              request.applicantEmail.trim().toLowerCase() === loginUser.trim().toLowerCase()
           );
 
           if (myRequests.length === 0) {

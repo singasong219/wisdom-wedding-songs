@@ -135,7 +135,7 @@
           channelKey: "channel-key-046243e7-973f-4a3f-97e4-cfabae9456be",
           paymentId: "payment-" + Date.now(),
           orderName: "웨딩 축가 신청",
-          totalAmount: 400000,
+          totalAmount: 1000,
           currency: "CURRENCY_KRW",
           payMethod: "CARD",
           customer: {
@@ -152,7 +152,34 @@
 
       alert("결제 성공!");
 
-      await fetch("/api/payments/1/confirm", {
+      const inputs = document.querySelectorAll("#songRequestForm input");
+      const textarea = document.querySelector("#songRequestForm textarea");
+
+      const requestData = {
+          applicantName: inputs[0].value,
+          applicantEmail: localStorage.getItem("loginEmail"),
+          applicantPhone: "010-0000-0000",
+          applicantType: "신랑측",
+          weddingDate: inputs[2].value,
+          weddingTime: "14:00",
+          weddingPlace: inputs[3].value,
+          songTitle: inputs[4].value,
+          specialRequest: textarea.value,
+          password: "1234"
+      };
+
+      const saveResponse = await fetch("/song-requests", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify(requestData)
+      });
+
+      console.log("저장 응답 상태 =", saveResponse.status);
+      console.log("보낸 데이터 =", requestData);
+
+          await fetch("/api/payments/1/confirm", {
           method: "POST"
       });
 
