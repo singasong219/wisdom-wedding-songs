@@ -113,7 +113,50 @@ MySQL Database
 > ERD 이미지는 GitHub 저장소에 업로드 후 아래 경로를 실제 이미지 경로로 수정하면 됩니다.
 
 ```markdown
+## ERD
 
+```mermaid
+erDiagram
+
+    MEMBER {
+        BIGINT id PK
+        VARCHAR name
+        VARCHAR email
+        VARCHAR password
+        VARCHAR role
+    }
+
+    SONG_REQUEST {
+        BIGINT id PK
+        VARCHAR applicant_name
+        VARCHAR applicant_phone
+        VARCHAR applicant_type
+        DATE wedding_date
+        TIME wedding_time
+        VARCHAR wedding_place
+        VARCHAR song_title
+        VARCHAR status
+        DATETIME created_at
+        DATETIME updated_at
+    }
+
+    PAYMENT {
+        BIGINT id PK
+        INT amount
+        VARCHAR status
+        BIGINT song_request_id FK
+    }
+
+    SINGER {
+        BIGINT id PK
+        VARCHAR name
+        VARCHAR phone
+        TEXT profile
+        VARCHAR video_url
+    }
+
+    SONG_REQUEST ||--|| PAYMENT : payment
+```
 ## 📊 ERD
 
 ![erd.png](images/erd.png)
