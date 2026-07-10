@@ -126,65 +126,77 @@
 
 <script>
   document.getElementById("songRequestForm").addEventListener("submit", async function (event) {
-      event.preventDefault();
+    event.preventDefault();
 
-      alert("축가 신청 버튼 클릭됨!");
+    const inputs = document.querySelectorAll("#songRequestForm input");
+    const textarea = document.querySelector("#songRequestForm textarea");
 
-      const result = await PortOne.requestPayment({
-          storeId: "store-5b4636b9-3ac2-4be7-9faa-a74d6f680afc",
-          channelKey: "channel-key-046243e7-973f-4a3f-97e4-cfabae9456be",
-          paymentId: "payment-" + Date.now(),
-          orderName: "웨딩 축가 신청",
-          totalAmount: 400000,
-          currency: "CURRENCY_KRW",
-          payMethod: "CARD",
-          customer: {
-            fullName: "수연",
-            phoneNumber: "01077777777",
-            email: "test@example.com"
-          }
-      });
+    const requestData = {
+      applicantName: inputs[0].value,
+      applicantEmail: localStorage.getItem("loginEmail"),
+      applicantPhone: "010-0000-0000",
+      applicantType: "신랑측",
+      weddingDate: inputs[2].value,
+      weddingTime: "14:00",
+      weddingPlace: inputs[3].value,
+      songTitle: inputs[4].value,
+      specialRequest: textarea.value,
+      password: "1234"
+    };
 
-      if (result.code) {
-          alert("결제 실패: " + result.message);
-          return;
-      }
-
-      alert("결제 성공!");
-
-      const inputs = document.querySelectorAll("#songRequestForm input");
-      const textarea = document.querySelector("#songRequestForm textarea");
-
-      const requestData = {
-          applicantName: inputs[0].value,
-          applicantEmail: localStorage.getItem("loginEmail"),
-          applicantPhone: "010-0000-0000",
-          applicantType: "신랑측",
-          weddingDate: inputs[2].value,
-          weddingTime: "14:00",
-          weddingPlace: inputs[3].value,
-          songTitle: inputs[4].value,
-          specialRequest: textarea.value,
-          password: "1234"
-      };
-
+    try {
+      // 1. 축가 신청을 먼저 DB에 저장
       const saveResponse = await fetch("/song-requests", {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json"
-          },
-          body: JSON.stringify(requestData)
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(requestData)
       });
 
       console.log("저장 응답 상태 =", saveResponse.status);
       console.log("보낸 데이터 =", requestData);
 
-          await fetch("/api/payments/1/confirm", {
-          method: "POST"
+      if (!saveResponse.ok) {
+        alert("축가 신청 저장에 실패했습니다.");
+        return;
+      }
+
+      // 2. 저장이 완료된 뒤 결제창 실행
+      const result = await PortOne.requestPayment({
+        storeId: "store-5b4636b9-3ac2-4be7-9faa-a74d6f680afc",
+        channelKey: "channel-key-046243e7-973f-4a3f-97e4-cfabae9456be",
+        paymentId: "payment-" + Date.now(),
+        orderName: "웨딩 축가 신청",
+        totalAmount: 400000,
+        currency: "CURRENCY_KRW",
+        payMethod: "CARD",
+        customer: {
+          fullName: inputs[0].value,
+          phoneNumber: "01077777777",
+          email: localStorage.getItem("loginEmail")
+        }
+      });
+
+      // 결제를 닫거나 실패해도 축가 신청 내역은 이미 저장된 상태
+      if (result.code) {
+        alert("결제가 취소되었습니다. 축가 신청 내역은 저장되었습니다.");
+        return;
+      }
+
+      alert("결제 성공!");
+
+      await fetch("/api/payments/1/confirm", {
+        method: "POST"
       });
 
       alert("DB 결제 상태가 PAID로 변경되었습니다!");
-      });
+
+    } catch (error) {
+      console.error(error);
+      alert("처리 중 오류가 발생했습니다.");
+    }
+  });
 </script>
 <script>
   const loginMenu = document.getElementById("loginMenu");
