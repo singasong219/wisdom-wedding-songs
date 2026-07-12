@@ -25,7 +25,8 @@ public class MemberService {
                 requestDto.getEmail(),
                 requestDto.getPassword(),
                 requestDto.getName(),
-                requestDto.getRole()
+                requestDto.getRole(),
+                requestDto.getBirthDate()
         );
 
         Member savedMember = memberRepository.save(member);

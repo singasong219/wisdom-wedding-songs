@@ -7,6 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -36,6 +37,10 @@ public class Member {
     @Column(nullable = false)
     private String role;
 
+    // 생년월일
+    @Column(nullable = false)
+    private LocalDate birthDate;
+
     // 생성일
     @CreatedDate
     @Column(updatable = false)
@@ -46,11 +51,12 @@ public class Member {
     private LocalDateTime updatedAt;
 
     // 회원 생성 생성자
-    public Member(String email, String password, String name, String role) {
+    public Member(String email, String password, String name, String role, LocalDate birthDate) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.role = role;
+        this.birthDate = birthDate;
     }
 
     // 회원 수정 메서드
